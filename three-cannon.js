@@ -21,6 +21,7 @@ function initScene () {
 	light.position.set(20, 30, 20);
 	light.target.position.set(0, 0, 0);
 	light.castShadow = true;
+	light.shadow.mapSize = new THREE.Vector2(2048, 2048);
 	scene.add(light);
 	scene.add(new THREE.AmbientLight(0x111111));
 
