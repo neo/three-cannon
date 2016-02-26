@@ -1,4 +1,51 @@
-var objAry = [];
+function initWorld () {
+	world = new CANNON.World();
+	world.gravity.set(0, -10, 0);
+}
+
+function initScene () {
+	scene = new THREE.Scene();
+	camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+	renderer = new THREE.WebGLRenderer({
+		// alpha:true,
+		antialias:true
+	});
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	control = new THREE.OrbitControls(camera, renderer.domElement);
+
+	camera.position.set(0, 10, 10);
+
+	light = new THREE.SpotLight(0xffffff);
+	light.position.set(20, 30, 20);
+	light.target.position.set(0, 0, 0);
+	light.castShadow = true;
+	scene.add(light);
+	scene.add(new THREE.AmbientLight(0x111111));
+
+	renderer.shadowMap.enabled = true;
+	renderer.shadowMapSoft = true;
+
+	scene.fog = new THREE.FogExp2(0x000000, 0.01);
+
+	raycaster = new THREE.Raycaster();
+	mouse = new THREE.Vector2();
+}
+
+function render () {
+	requestAnimationFrame(render);
+
+	world.step(timestep);
+
+	for (var i = objAry.length - 1; i >= 0; i--) {
+		objAry[i].update();
+	}
+
+	control.update();
+
+	renderer.render(scene, camera);
+}
 
 function Obj3d (obj, shape, geometry) {
 	this.shape = shape;
