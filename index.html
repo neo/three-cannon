@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>3D Physics</title>
+	<style>
+		body { margin: 0; overflow: hidden; }
+		canvas { width: 100%; height: 100%; }
+	</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r74/three.min.js"></script>
+<script src="lib/OrbitControls.js"></script>
+<script src="three-cannon.js"></script>
+<script>
+var world, timestep = 1/60;
+var scene, camera, renderer, control, raycaster, mouse;
+
+initWorld();
+initScene();
+render();
+
+var material = new THREE.MeshPhongMaterial({
+	color: 0x156289,
+	emissive: 0x072534,
+	side: THREE.DoubleSide,
+	shading: THREE.FlatShading
+});
+
+var floor = new Floor({
+	world:world,
+	scene:scene,
+	size:{x:10, y:10},
+	material:material
+});
+
+window.addEventListener('mousemove', function (e) {
+}, false);
+
+window.addEventListener('click', function (e) {
+	mouse.x = e.clientX / window.innerWidth * 2 - 1;
+	mouse.y = - e.clientY / window.innerHeight * 2 + 1;
+	raycaster.setFromCamera(mouse, camera);
+	var intersects = raycaster.intersectObjects([scene.getObjectByName('floor')]);
+	var point = intersects[0].point;
+	if (Math.random() < 0.5) {
+		var cube = new Box({
+			world:world,
+			scene:scene,
+			mass:1,
+			size:{x:1, y:1, z:1},
+			position:{x:point.x, y:1, z:point.z},
+			material:material
+		});
+	} else {
+		var sphere = new Sphere({
+			world:world,
+			scene:scene,
+			mass:1,
+			radius:0.5,
+			position:{x:point.x, y:1, z:point.z},
+			material:material
+		});
+	}
+});
+
+function initWorld () {
+	world = new CANNON.World();
+	world.gravity.set(0, -10, 0);
+}
+
+function initScene () {
+	scene = new THREE.Scene();
+	camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+	renderer = new THREE.WebGLRenderer({
+		// alpha:true,
+		antialias:true
+	});
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	control = new THREE.OrbitControls(camera, renderer.domElement);
+
+	camera.position.set(0, 10, 10);
+
+	light = new THREE.SpotLight(0xffffff);
+	light.position.set(20, 30, 20);
+	light.target.position.set(0, 0, 0);
+	light.castShadow = true;
+	scene.add(light);
+	scene.add(new THREE.AmbientLight(0x111111));
+
+	renderer.shadowMap.enabled = true;
+	renderer.shadowMapSoft = true;
+
+	scene.fog = new THREE.FogExp2(0x000000, 0.01);
+
+	raycaster = new THREE.Raycaster();
+	mouse = new THREE.Vector2();
+}
+
+function render () {
+	requestAnimationFrame(render);
+
+	world.step(timestep);
+
+	for (var i = objAry.length - 1; i >= 0; i--) {
+		objAry[i].update();
+	}
+
+	control.update();
+
+	renderer.render(scene, camera);
+}
+</script>
+</body>
+</html>
