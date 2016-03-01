@@ -66,6 +66,7 @@ function Obj3d (obj, shape, geometry) {
 		this.mesh.quaternion.copy(this.body.quaternion);
 	}
 	objAry.push(this);
+	if (obj.name) this.mesh.name = obj.name;
 }
 
 function Sphere (obj) {
@@ -88,9 +89,9 @@ function Plane (obj) {
 
 function Floor (obj) {
 	obj.size = {x:1000, y:1000};
+	obj.name = 'floor';
 	Plane.call(this, obj);
 	this.body.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI/2);
-	this.mesh.name = 'floor';
 }
 // why? only use when .prototype was called
 // Floor.prototype = Object.create(Plane.prototype);

@@ -16,7 +16,6 @@ var material = new THREE.MeshPhongMaterial({
 var floor = new Floor({
 	world:world,
 	scene:scene,
-	size:{x:10, y:10},
 	material:material
 });
 
