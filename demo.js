@@ -14,8 +14,6 @@ var material = new THREE.MeshPhongMaterial({
 });
 
 var floor = new Floor({
-	world:world,
-	scene:scene,
 	material:material
 });
 
@@ -27,8 +25,6 @@ window.addEventListener('click', function (e) {
 	var point = intersects[0].point;
 	if (Math.random() < 0.5) {
 		var cube = new Box({
-			world:world,
-			scene:scene,
 			mass:1,
 			size:{x:1, y:1, z:1},
 			position:{x:point.x, y:1, z:point.z},
@@ -36,8 +32,6 @@ window.addEventListener('click', function (e) {
 		});
 	} else {
 		var sphere = new Sphere({
-			world:world,
-			scene:scene,
 			mass:1,
 			radius:0.5,
 			position:{x:point.x, y:1, z:point.z},

@@ -59,8 +59,8 @@ function Obj3d (obj, shape, geometry) {
 	this.mesh = new THREE.Mesh(this.geometry, obj.material || new THREE.MeshNormalMaterial({side:THREE.DoubleSide}));
 	this.mesh.castShadow = true;
 	this.mesh.receiveShadow = true;
-	obj.world.add(this.body);
-	obj.scene.add(this.mesh);
+	world.add(this.body);
+	scene.add(this.mesh);
 	this.update = function () {
 		this.mesh.position.copy(this.body.position);
 		this.mesh.quaternion.copy(this.body.quaternion);
