@@ -60,7 +60,8 @@ function Obj3d (obj, shape, geometry) {
 	this.mesh.castShadow = true;
 	this.mesh.receiveShadow = true;
 	world.add(this.body);
-	scene.add(this.mesh);
+	if (obj.parent) obj.parent.add(this.mesh);
+	else scene.add(this.mesh);
 	this.update = function () {
 		this.mesh.position.copy(this.body.position);
 		this.mesh.quaternion.copy(this.body.quaternion);

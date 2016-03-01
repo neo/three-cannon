@@ -17,6 +17,10 @@ var floor = new Floor({
 	material:material
 });
 
+var balls = new THREE.Object3D();
+var cubes = new THREE.Object3D();
+scene.add(balls, cubes);
+
 window.addEventListener('click', function (e) {
 	mouse.x = e.clientX / window.innerWidth * 2 - 1;
 	mouse.y = - e.clientY / window.innerHeight * 2 + 1;
@@ -25,6 +29,7 @@ window.addEventListener('click', function (e) {
 	var point = intersects[0].point;
 	if (Math.random() < 0.5) {
 		var cube = new Box({
+			parent:cubes,
 			mass:1,
 			size:{x:1, y:1, z:1},
 			position:{x:point.x, y:1, z:point.z},
@@ -32,6 +37,7 @@ window.addEventListener('click', function (e) {
 		});
 	} else {
 		var sphere = new Sphere({
+			parent:balls,
 			mass:1,
 			radius:0.5,
 			position:{x:point.x, y:1, z:point.z},
