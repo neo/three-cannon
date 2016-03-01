@@ -15,10 +15,12 @@ function initScene () {
 
 	control = new THREE.OrbitControls(camera, renderer.domElement);
 
-	camera.position.set(0, 10, 10);
+//moved camera to hover over the top of the box to drop popcorn in
+	camera.position.set(5, 25,-5);
 
+//moved light to be over box so popcorn can be seen
 	light = new THREE.SpotLight(0xffffff);
-	light.position.set(20, 30, 20);
+	light.position.set(0,100, 0);
 	light.target.position.set(0, 0, 0);
 	light.castShadow = true;
 	light.shadow.mapSize = new THREE.Vector2(2048, 2048);
@@ -78,6 +80,13 @@ function Box (obj) {
 	this.shape = new CANNON.Box(new CANNON.Vec3(obj.size.x/2, obj.size.y/2, obj.size.z/2));
 	this.geometry = new THREE.BoxGeometry(obj.size.x, obj.size.y, obj.size.z);
 	Obj3d.call(this, obj, this.shape, this.geometry);
+}
+
+function Wall (obj,name) {
+	this.shape = new CANNON.Box(new CANNON.Vec3(obj.size.x/2, obj.size.y/2, obj.size.z/2));
+	this.geometry = new THREE.BoxGeometry(obj.size.x, obj.size.y, obj.size.z);
+	Obj3d.call(this, obj, this.shape, this.geometry);
+	this.mesh.name = name;
 }
 
 function Plane (obj) {
