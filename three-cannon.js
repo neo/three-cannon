@@ -17,13 +17,13 @@ function initScene () {
 
 	camera.position.set(0, 10, 10);
 
-	light = new THREE.SpotLight(0xffffff);
-	light.position.set(20, 30, 20);
-	light.target.position.set(0, 0, 0);
-	light.castShadow = true;
-	light.shadow.mapSize = new THREE.Vector2(2048, 2048);
-	scene.add(light);
-	scene.add(new THREE.AmbientLight(0x111111));
+	lights[0] = new THREE.AmbientLight(0x111111);
+	lights[1] = new THREE.SpotLight(0xffffff);
+	lights[1].position.set(20, 30, 20);
+	lights[1].target.position.set(0, 0, 0);
+	lights[1].castShadow = true;
+	lights[1].shadow.mapSize = new THREE.Vector2(2048, 2048);
+	scene.add(lights[0], lights[1]);
 
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMapSoft = true;
@@ -66,7 +66,8 @@ function Obj3d (obj, shape, geometry) {
 		this.mesh.position.copy(this.body.position);
 		this.mesh.quaternion.copy(this.body.quaternion);
 	}
-	objAry.push(this);
+	this.update();
+	if (obj.mass) objAry.push(this);
 	if (obj.name) this.mesh.name = obj.name;
 }
 
@@ -93,6 +94,7 @@ function Floor (obj) {
 	obj.name = 'floor';
 	Plane.call(this, obj);
 	this.body.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI/2);
+	this.update();
 }
 // why? only use when .prototype was called
 // Floor.prototype = Object.create(Plane.prototype);

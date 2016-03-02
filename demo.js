@@ -1,5 +1,5 @@
 var world, timestep = 1/60;
-var scene, camera, renderer, control, raycaster, mouse;
+var scene, camera, renderer, control, raycaster, mouse, lights=[];
 var objAry = [];
 
 initWorld();
@@ -59,7 +59,7 @@ var bottom = new Box({
 	material: boxMaterial
 });
 
-light.position.set(25, 50, 25);
+lights[1].position.set(25, 50, 25);
 camera.position.set(25, 50, 25);
 
 var balls = new THREE.Object3D();
