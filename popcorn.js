@@ -70,23 +70,15 @@ window.addEventListener('click', function (e) {
 	mouse.x = e.clientX / window.innerWidth * 2 - 1;
 	mouse.y = - e.clientY / window.innerHeight * 2 + 1;
 	raycaster.setFromCamera(mouse, camera);
-	var intersects = raycaster.intersectObjects([scene.getObjectByName('floor')]);
-	var point = intersects[0].point;
-	var boxIntersects = raycaster.intersectObjects(box.children);
-	if (boxIntersects[0]) point = boxIntersects[0].point;
-	if (Math.random() < 0.5) {
-		var cube = new Box({
+	var intersects = raycaster.intersectObjects(box.children);
+	if (intersects[0]) {
+		point = intersects[0].point;
+		var size = 2;
+		if (point.y <= 2) point.y += size / 2;
+		var popcorn = new Box({
 			parent:cubes,
 			mass:1,
-			size:{x:1, y:1, z:1},
-			position:{x:point.x, y:point.y, z:point.z},
-			material:material
-		});
-	} else {
-		var sphere = new Sphere({
-			parent:balls,
-			mass:1,
-			radius:0.5,
+			size:{x:size, y:size, z:size},
 			position:{x:point.x, y:point.y, z:point.z},
 			material:material
 		});
