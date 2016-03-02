@@ -17,9 +17,54 @@ var floor = new Floor({
 	material:material
 });
 
+var boxMaterial = new THREE.MeshPhongMaterial({
+	color: 0xff5252
+});
+
+var box = new THREE.Object3D();
+box.name = 'box';
+var front = new Box({
+	parent: box,
+	mass: 0,
+	size: {x:20, y:20, z: 2},
+	position: {x:1, y:12, z:10},
+	material: boxMaterial
+});
+var back = new Box({
+	parent: box,
+	mass: 0,
+	size: {x:20, y:20, z: 2},
+	position: {x:-1, y:12, z:-10},
+	material: boxMaterial
+});
+var left = new Box({
+	parent: box,
+	mass: 0,
+	size: {x:2, y:20, z: 20},
+	position: {x:-10, y:12, z:1},
+	material: boxMaterial
+});
+var right = new Box({
+	parent: box,
+	mass: 0,
+	size: {x:2, y:20, z: 20},
+	position: {x:10, y:12, z:-1},
+	material: boxMaterial
+});
+var bottom = new Box({
+	parent: box,
+	mass: 0,
+	size: {x:22, y:2, z:22},
+	position: {x:0, y:1, z:0},
+	material: boxMaterial
+});
+
+light.position.set(25, 50, 25);
+camera.position.set(25, 50, 25);
+
 var balls = new THREE.Object3D();
 var cubes = new THREE.Object3D();
-scene.add(balls, cubes);
+scene.add(balls, cubes, box);
 
 window.addEventListener('click', function (e) {
 	mouse.x = e.clientX / window.innerWidth * 2 - 1;
