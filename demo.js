@@ -59,8 +59,8 @@ var bottom = new Box({
 	material: boxMaterial
 });
 
-lights[1].position.set(25, 50, 25);
-camera.position.set(25, 50, 25);
+lights[1].position.set(25, 100, 25);
+camera.position.set(5, 50, 10);
 
 var balls = new THREE.Object3D();
 var cubes = new THREE.Object3D();
@@ -72,12 +72,14 @@ window.addEventListener('click', function (e) {
 	raycaster.setFromCamera(mouse, camera);
 	var intersects = raycaster.intersectObjects([scene.getObjectByName('floor')]);
 	var point = intersects[0].point;
+	var boxIntersects = raycaster.intersectObjects(box.children);
+	if (boxIntersects[0]) point = boxIntersects[0].point;
 	if (Math.random() < 0.5) {
 		var cube = new Box({
 			parent:cubes,
 			mass:1,
 			size:{x:1, y:1, z:1},
-			position:{x:point.x, y:1, z:point.z},
+			position:{x:point.x, y:point.y, z:point.z},
 			material:material
 		});
 	} else {
@@ -85,7 +87,7 @@ window.addEventListener('click', function (e) {
 			parent:balls,
 			mass:1,
 			radius:0.5,
-			position:{x:point.x, y:1, z:point.z},
+			position:{x:point.x, y:point.y, z:point.z},
 			material:material
 		});
 	}
