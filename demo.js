@@ -78,7 +78,7 @@ window.addEventListener('click', function (e) {
 		var cube = new Box({
 			parent:cubes,
 			mass:1,
-			size:{x:1, y:1, z:1},
+			size:{x:2, y:2, z:2},
 			position:{x:point.x, y:point.y, z:point.z},
 			material:material
 		});
@@ -86,7 +86,7 @@ window.addEventListener('click', function (e) {
 		var sphere = new Sphere({
 			parent:balls,
 			mass:1,
-			radius:0.5,
+			radius:1,
 			position:{x:point.x, y:point.y, z:point.z},
 			material:material
 		});
